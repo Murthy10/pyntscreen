@@ -69,7 +69,6 @@ class Application(tk.Frame):
     def take_pictures(self):
         if self.active and self._has_mouse_moved_enough():
             image = ImageGrab.grab(bbox=self._build_bbox())
-            print('Right size: ', self._right_image_size(image), image.size)
             if self._right_image_size(image):
                 self.images.append(image)
                 self.counter_text = len(self.images)
@@ -131,8 +130,10 @@ class Application(tk.Frame):
     def save_directory(self, path):
         self._save_directory.set(path)
 
+if __name__ == '__main__':
+    root = tk.Tk()
+    root.wm_title("pyntscreen")
+    app = Application(master=root)
+    app.mainloop()
 
-root = tk.Tk()
-root.wm_title("pyntscreen")
-app = Application(master=root)
-app.mainloop()
+
