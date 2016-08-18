@@ -3,6 +3,7 @@ import uuid
 import tkinter as tk
 from tkinter import filedialog
 from tkinter import messagebox
+from tkinter import PhotoImage
 import pyscreenshot as ImageGrab
 
 
@@ -10,6 +11,7 @@ class Application(tk.Frame):
     def __init__(self, master=None):
         super().__init__(master)
         self.master.bind('<Control_L>', self.trigger)
+        self.master.bind('<Control_R>', self.trigger)
         self.active = False
         self._image_height = tk.StringVar()
         self._image_width = tk.StringVar()
@@ -45,9 +47,11 @@ class Application(tk.Frame):
         tk.Label(frame_dimension, text="Image width: ").grid(row=1, column=0)
         tk.Entry(frame_dimension, width=10, textvariable=self._image_height).grid(row=0, column=1)
         tk.Entry(frame_dimension, width=10, textvariable=self._image_width).grid(row=1, column=1)
+        tk.Label(frame_dimension, text="pixel").grid(row=0, column=2)
+        tk.Label(frame_dimension, text="pixel").grid(row=1, column=2)
 
     def _save_frame(self):
-        frame_save = tk.LabelFrame(self.master, text='Save images', padx=5, pady=5)
+        frame_save = tk.LabelFrame(self.master, text='Save images - press "Ctrl" to start/stop', padx=5, pady=5)
         frame_save.grid(sticky="nesw", padx=5, pady=5)
         tk.Label(frame_save, textvariable=self._counter_text).grid(row=0, column=0, sticky="w")
         tk.Button(frame_save, text="Save", command=self.save_images).grid(row=0, column=1, sticky="e")
@@ -63,7 +67,7 @@ class Application(tk.Frame):
         self.active = not self.active
         if self.active:
             self.take_pictures()
-            self.master.config(background="green")
+            self.master.config(background="green2")
         else:
             self.master.config(background="gainsboro")
 
@@ -87,7 +91,7 @@ class Application(tk.Frame):
             if self._right_image_size(image):
                 self.images.append(image)
                 self.counter_text = len(self.images)
-        self.master.after(100, self.take_pictures)
+        self.master.after(50, self.take_pictures)
 
     def _right_image_size(self, image):
         current_width, current_height = image.size
@@ -152,6 +156,9 @@ class Application(tk.Frame):
 
 if __name__ == '__main__':
     root = tk.Tk()
-    root.wm_title("pyntscreen - use 'Ctrl' to run")
+    if os.path.exists('img/pynt.png'):
+        img = PhotoImage(file='img/pynt.png')
+        root.tk.call('wm', 'iconphoto', root._w, img)
+    root.wm_title("pynt - press 'Ctrl' to start/stop")
     app = Application(master=root)
     app.mainloop()
