@@ -30,8 +30,8 @@ class Application(tk.Frame):
         self.save_directory = os.path.dirname(os.path.realpath(__file__))
 
     def create_widgets(self):
-        self._directory_frame()
         self._dimension_frame()
+        self._directory_frame()
         self._save_frame()
 
     def _directory_frame(self):
