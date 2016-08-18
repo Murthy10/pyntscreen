@@ -7,6 +7,7 @@ from pyntscreen import Application
 def app():
     return Application()
 
+
 @pytest.fixture(scope='module')
 def image():
     return Image.new("RGBA", (50, 50), "blue")
@@ -28,3 +29,11 @@ def test_right_image_size(app, image):
 def test_not_right_image_size(app):
     image = Image.new("RGBA", (50, 51), "blue")
     assert not app._right_image_size(image)
+
+
+def test_directory_does_exists(app):
+    assert app._is_directory('/')
+
+
+def test_directory_does_not_exists(app):
+    assert not app._is_directory('asdf')
